@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  host-client:
+    container_name: host-client-dev
+    image: host-client-dev:latest
+    build:
+      context: ./host-client
+      dockerfile: Dockerfile
+      target: development
+    env_file:
+      - ./host-client/.env.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./host-client:/app
+      - /app/node_modules
+      - /app/.next
+    command: npm run dev
