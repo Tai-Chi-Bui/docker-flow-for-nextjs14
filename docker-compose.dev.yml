@@ -7,7 +7,6 @@ services:
     build:
       context: ./host-client
       dockerfile: Dockerfile.dev
-      target: development
     env_file:
       - ./host-client/.env.dev
     ports:

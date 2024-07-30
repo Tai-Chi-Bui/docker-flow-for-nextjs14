@@ -8,8 +8,6 @@ RUN npm ci
 
 COPY . .
 
-FROM base AS development
-
 # This EXPOSE is entirely for documentation purposes. This doesn't actually force the PORT to be 3000.
 EXPOSE $PORT
 
