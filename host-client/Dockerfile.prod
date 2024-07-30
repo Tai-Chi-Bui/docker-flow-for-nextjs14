@@ -29,7 +29,7 @@ COPY --from=build --chown=nextuser:nextuser /app/.next/static ./.next/static
 # set non root user
 USER nextuser
 # expose 3000 on container
-EXPOSE 3000
+EXPOSE $PORT
 # start the app with dumb init to spawn the Node.js runtime process
 # with signal support
 CMD ["dumb-init","node","server.js"]
