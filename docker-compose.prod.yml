@@ -3,13 +3,13 @@ version: '3.8'
 services:
   host-client:
     container_name: host-client-dev
-    image: host-client-dev:latest
+    image: host-client-prod:latest
     build:
       context: ./host-client
       dockerfile: Dockerfile
       target: production
     env_file:
-      - ./host-client/.env.dev
+      - ./host-client/.env.prod
     ports:
       - "3000:3000"
     volumes:

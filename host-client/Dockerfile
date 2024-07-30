@@ -49,4 +49,4 @@ ENV NODE_ENV production
 # This EXPOSE is entirely for documentation purposes. This doesn't actually force the PORT to be 3000.
 EXPOSE $PORT
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
