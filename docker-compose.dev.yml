@@ -6,8 +6,8 @@ services:
     image: host-client-dev:latest
     build:
       context: ./host-client
-      dockerfile: Dockerfile
-      target: production
+      dockerfile: Dockerfile.dev
+      target: development
     env_file:
       - ./host-client/.env.dev
     ports:

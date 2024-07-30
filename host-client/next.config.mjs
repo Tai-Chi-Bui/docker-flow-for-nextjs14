@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    output: 'standalone',
     // This options allow hot reload on docker window destop for this app 
-    webpackDevMiddleware: config => {
+    webpack: config => {
         config.watchOptions = {
             poll: 1000,
             aggregateTimeout: 300,
