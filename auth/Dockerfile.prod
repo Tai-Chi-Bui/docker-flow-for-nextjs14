@@ -1,0 +1,41 @@
+# Step 1: Build the application
+FROM node:18-alpine AS build
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the package.json and package-lock.json files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --production
+
+# Copy the rest of the application files
+COPY . .
+
+# Compile TypeScript to JavaScript
+RUN npm run build
+
+# Step 2: Create the production image
+FROM node:18-alpine AS production
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the package.json and package-lock.json files
+COPY package*.json ./
+
+# Install only production dependencies
+RUN npm ci
+
+# Copy the build files from the previous stage
+COPY --from=build /app/dist ./dist
+
+# Copy any other necessary files (e.g., public, config)
+# COPY --from=build /app/public ./public
+
+# Specify the command to run the application
+CMD ["node", "dist/index.js"]
+
+# Expose the application port
+EXPOSE $PORT

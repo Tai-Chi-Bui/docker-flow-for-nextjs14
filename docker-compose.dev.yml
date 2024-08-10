@@ -8,10 +8,48 @@ services:
       context: ./host-client
       dockerfile: Dockerfile.dev
     env_file:
-      - ./host-client/.env.dev
+      - ./host-client/.env.development
     ports:
       - "3000:3000"
     volumes:
       - ./host-client:/app
       - /app/node_modules
       - /app/.next
+      
+  auth: 
+    container_name: auth-dev
+    image: auth-dev:latest
+    build:
+      context: ./auth
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./auth/.env.development
+    ports:
+      - "3001:3000" 
+    volumes:
+      - ./auth:/app
+      - /app/node_modules
+    depends_on:
+      - authDb
+    networks:
+      - node-network
+  
+  authDb:
+    image: mongo:latest
+    container_name: mongodb_container_dev
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 12345678
+      MONGO_INITDB_DATABASE: auth_db
+    ports:
+      - 27017:27017
+    volumes:
+      - authMongo:/data/db
+    networks:
+      - node-network
+volumes:
+  authMongo:
+
+networks:
+  node-network:
+    driver: bridge

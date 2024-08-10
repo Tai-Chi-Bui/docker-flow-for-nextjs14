@@ -1,0 +1,15 @@
+FROM node:18-alpine AS base
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+# This EXPOSE is entirely for documentation purposes. This doesn't actually force the PORT to be 3000.
+EXPOSE $PORT
+
+CMD ["npm", "run", "dev"]
+    
