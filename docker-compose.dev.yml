@@ -35,12 +35,11 @@ services:
       - node-network
   
   authDb:
-    image: mongo:latest
+    image: mongodb/mongodb-community-server:latest
     container_name: mongodb_container_dev
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 12345678
-      MONGO_INITDB_DATABASE: auth_db
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
     ports:
       - 27017:27017
     volumes:
