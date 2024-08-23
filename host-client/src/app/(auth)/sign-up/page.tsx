@@ -2,22 +2,32 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { signUpAction } from '@/app/_api/sign-up';
-import { useFormState } from 'react-dom';
-
-const initialState = {
-  message: '',
-}
+import { useSignUp } from '@/app/_api/auth/signup'; // Import your custom hook
 
 const SignUp = () => {
-  //const [state, formAction, pending] = useActionState(signUpAction, initialState)
-  // useActionState is in the docs but not supported yet
-  const [state, formAction, pending] = useFormState(signUpAction, initialState)
+  const mutation = useSignUp();
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+
+    mutation.mutate(formData, {
+      onError: (error: Error) => {
+        // Handle the error at the component level
+        alert(`Error: ${error.message}`);
+      },
+      onSuccess: (data) => {
+        // Handle successful sign-up
+        alert(data.message);
+      },
+    });
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-900">Sign Up</h2>
-        <form className="mt-8 space-y-6" action={formAction}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm">
             <div className="mb-4">
               <label htmlFor="username" className="block text-sm font-medium text-gray-700">
@@ -73,11 +83,10 @@ const SignUp = () => {
           </div>
           <div>
             <button
-              aria-disabled={pending}
               type="submit"
               className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              {pending ? 'Submitting...' : 'Sign Up'}
+              Sign Up
             </button>
           </div>
           <div className="text-sm text-center">
@@ -89,7 +98,6 @@ const SignUp = () => {
             </p>
           </div>
         </form>
-        <h3 className='text-red-500 text-center' aria-live="polite">{state?.message as string}</h3>
       </div>
     </div>
   );

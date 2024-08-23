@@ -1,5 +1,4 @@
 import express from 'express';
-import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import { errorHandler, NotFoundError } from './common';
@@ -8,10 +7,12 @@ import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
+import cors from 'cors';
 
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
+app.use(cors());
 app.use(
   cookieSession({
     signed: false,
@@ -24,7 +25,8 @@ app.use(signinRouter);
 app.use(signoutRouter);
 app.use(signupRouter);
 
-app.all('*', async (req, res) => {
+app.all('*', async (req: any, res: any) => {
+  console.log('req', req)
   throw new NotFoundError();
 });
 
