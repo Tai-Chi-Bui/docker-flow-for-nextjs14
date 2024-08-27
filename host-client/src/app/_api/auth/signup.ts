@@ -13,7 +13,6 @@ type SignUpResponse = { message: string };
 
 // Define the function for sign-up logic
 const signUpHandler = async (formData: FormData): Promise<SignUpResponse> => {
-  const username = formData.get('username') as string;
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
   const confirmPassword = formData.get('confirm-password') as string;
@@ -34,7 +33,7 @@ const signUpHandler = async (formData: FormData): Promise<SignUpResponse> => {
 
   return apiFetch<SignUpResponse>(endpoints.auth.signUp, {
     method: 'POST',
-    body: { username, email, password },
+    body: { email, password },
   });
 };
 
